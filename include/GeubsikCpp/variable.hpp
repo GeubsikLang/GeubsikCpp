@@ -21,6 +21,7 @@ namespace gs
 	{
 	public:
 		variable() noexcept = default;
+		variable(std::string name) noexcept;
 		variable(const variable& variable);
 		variable(variable&& variable) noexcept;
 		~variable() = default;
@@ -34,9 +35,11 @@ namespace gs
 
 	public:
 		variable_type type() const noexcept;
+		std::string_view name() const noexcept;
 
 	private:
 		std::variant<std::monostate, double, std::string, const function*> data_;
+		std::string name_;
 
 	private:
 		static int compare_number_(double a, double b) noexcept;

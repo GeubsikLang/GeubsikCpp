@@ -8,6 +8,9 @@
 
 namespace gs
 {
+	variable::variable(std::string name) noexcept
+		: name_(std::move(name))
+	{}
 	variable::variable(const variable& variable)
 		: data_(variable.data_)
 	{}
@@ -77,6 +80,10 @@ namespace gs
 	variable_type variable::type() const noexcept
 	{
 		return static_cast<variable_type>(data_.index());
+	}
+	std::string_view variable::name() const noexcept
+	{
+		return name_;
 	}
 
 	int variable::compare_number_(double a, double b) noexcept
