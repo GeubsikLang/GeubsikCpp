@@ -4,7 +4,7 @@
 
 namespace gs
 {
-	command::command(command_type type, std::vector<variable> arguments)
+	command::command(command_type type, std::vector<std::string> arguments)
 		: type_(type), arguments_(std::move(arguments))
 	{}
 	command::command(const command& command)
@@ -45,7 +45,7 @@ namespace gs
 	{
 		return type_;
 	}
-	const std::vector<variable>& command::arguments() const noexcept
+	const std::vector<std::string>& command::arguments() const noexcept
 	{
 		return arguments_;
 	}

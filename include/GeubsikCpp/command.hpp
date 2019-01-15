@@ -1,8 +1,6 @@
 #ifndef GEUBSIKCPP_HEADER_COMMAND_HPP
 #define GEUBSIKCPP_HEADER_COMMAND_HPP
 
-#include <GeubsikCpp/variable.hpp>
-
 #include <vector>
 
 namespace gs
@@ -36,7 +34,7 @@ namespace gs
 	{
 	public:
 		command() noexcept = default;
-		command(command_type type, std::vector<variable> arguments);
+		command(command_type type, std::vector<std::string> arguments);
 		command(const command& command);
 		command(command&& command) noexcept;
 		~command() = default;
@@ -51,11 +49,11 @@ namespace gs
 
 	public:
 		command_type type() const noexcept;
-		const std::vector<variable>& arguments() const noexcept;
+		const std::vector<std::string>& arguments() const noexcept;
 
 	private:
 		command_type type_ = command_type::none;
-		std::vector<variable> arguments_;
+		std::vector<std::string> arguments_;
 	};
 }
 
