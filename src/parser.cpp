@@ -44,14 +44,26 @@ namespace gs::parser
 				tokens[tokens.size() - 2] != u8"미쳐버린" ||
 				tokens[tokens.size() - 1] != u8"부분") return "올바르지 않은 함수 호출문입니다.";
 
-			const std::string function_name(substr(tokens[3], 0, tokens[2].size() - 3));
+			const std::string function_name(substr(tokens[3], 0, tokens[3].size() - 3));
 			std::vector<std::string> arguments;
+
+			std::string prev_token;
 
 			for (std::size_t i = 4; i < tokens.size() - 2; ++i)
 			{
-				if (substr(tokens[i], tokens[i].size() - 3, 3) != u8"고") return "올바르지 않은 함수 호출문입니다.";
-				arguments.push_back(std::string(substr(tokens[i], 0, tokens[i].size() - 3)));
+				const std::string_view splited = tokens[i].size() >= 3 ? substr(tokens[i], tokens[i].size() - 3, 3) : tokens[i];
+
+				if (splited != u8"고")
+				{
+					prev_token += tokens[i];
+					continue;
+				}
+
+				arguments.push_back(prev_token + std::string(substr(tokens[i], 0, tokens[i].size() - 3)));
+				prev_token.clear();
 			}
+
+			if (!prev_token.empty()) return "올바르지 않은 함수 호출문입니다.";
 
 			result.push_back(command(command_type::function_call, std::move(arguments)));
 
