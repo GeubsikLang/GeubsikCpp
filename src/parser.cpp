@@ -55,7 +55,7 @@ namespace gs::parser
 
 				if (splited != u8"고")
 				{
-					prev_token += tokens[i];
+					prev_token += tokens[i] + ' ';
 					continue;
 				}
 
