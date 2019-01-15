@@ -11,6 +11,18 @@ namespace gs
 	variable::variable(std::string name) noexcept
 		: name_(std::move(name))
 	{}
+	variable::variable(const std::variant<std::monostate, double, std::string, const gs::function*>& value)
+		: data_(value)
+	{}
+	variable::variable(std::variant<std::monostate, double, std::string, const gs::function*>&& value) noexcept
+		: data_(std::move(value))
+	{}
+	variable::variable(std::string name, const std::variant<std::monostate, double, std::string, const gs::function*>& value)
+		: name_(std::move(name)), data_(value)
+	{}
+	variable::variable(std::string name, std::variant<std::monostate, double, std::string, const gs::function*>&& value) noexcept
+		: name_(std::move(name)), data_(std::move(value))
+	{}
 	variable::variable(const variable& variable)
 		: data_(variable.data_)
 	{}
@@ -76,6 +88,10 @@ namespace gs
 		default: assert(false);
 		}
 	}
+	bool variable::is_undefined() const noexcept
+	{
+		return type() == variable_type::undefined;
+	}
 
 	variable_type variable::type() const noexcept
 	{
@@ -84,6 +100,31 @@ namespace gs
 	std::string_view variable::name() const noexcept
 	{
 		return name_;
+	}
+
+	double variable::number() const noexcept
+	{
+		return std::get<1>(data_);
+	}
+	double& variable::number() noexcept
+	{
+		return std::get<1>(data_);
+	}
+	std::string_view variable::string() const noexcept
+	{
+		return std::get<2>(data_);
+	}
+	std::string& variable::string() noexcept
+	{
+		return std::get<2>(data_);
+	}
+	const function* variable::function() const noexcept
+	{
+		return std::get<3>(data_);
+	}
+	const function*& variable::function() noexcept
+	{
+		return std::get<3>(data_);
 	}
 
 	int variable::compare_number_(double a, double b) noexcept
@@ -98,7 +139,7 @@ namespace gs
 		else if (a > b) return -1;
 		else return 1;
 	}
-	int variable::compare_function_(const function* a, const function* b) noexcept
+	int variable::compare_function_(const gs::function* a, const gs::function* b) noexcept
 	{
 		if (!a && !b) return 0;
 		else if (a && !b) return -1;
