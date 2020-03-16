@@ -164,9 +164,4 @@ if, 모든 else if 문이 거짓일 경우 실행합니다.
 	- 사칙 연산과 크기 비교 연산(>,>=,<,<=)에만 적용됩니다.
 - `undefined`와 `string`: `undefined`이 `string`으로 형 변환되며, 빈 문자열을 가집니다.
 	- 사칙 연산과 크기 비교 연산에만 적용됩니다.
-- `number`와 `undefined`: `undefined`이 `number`로 형 변환되며, 0을 가집니다.
-	- 사칙 연산과 크기 비교 연산에만 적용됩니다.
-- `number`와 `string`: `string`이 숫자일 경우 `number`로 형 변환됩니다.
-- `string`과 `undefined`: `undefined`이 `string`으로 형 변환되며, 빈 문자열을 가집니다.
-	- 사칙 연산과 크기 비교 연산에만 적용됩니다.
-- `string`과 `number`: `number`가 `string`으로 형 변환됩니다.
+- `number`와 `string`: `string`이 `number`로 형 변환되며, `string`을 숫자로 변환할 수 있으면 숫자로 변환한 값을, 숫자로 변환할 수 없으면 0을 가집니다. 숫자로의 형 변환은 `string`의 가장 첫 번째 글자부터 숫자로 변환할 수 있는 글자까지만 변환합니다.
